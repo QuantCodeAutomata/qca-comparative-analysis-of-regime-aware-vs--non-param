@@ -1,0 +1,54 @@
+================================================================================
+COMPARATIVE ANALYSIS OF REGIME-AWARE VS. NON-PARAMETRIC ASSET ALLOCATION
+================================================================================
+
+Configuration:
+  Asset Universe: ['SPX', 'BOND', 'GOLD', 'OIL', 'USD']
+  Tickers: ['SPY', 'AGG', 'GLD', 'USO', 'UUP']
+  OOS Start Date: 2023-01-01
+
+Step 1: Loading and preparing data...
+--------------------------------------------------------------------------------
+Loading price data for 5 assets...
+  SPX (SPY): 5344 days
+  BOND (AGG): 5344 days
+  GOLD (GLD): 5344 days
+  OIL (USO): 5025 days
+  USD (UUP): 4802 days
+Total aligned trading days: 4802
+Features prepared: 4742 days, 15 features (3 × 5 assets)
+Train period: 2007-05-25 00:00:00 to 2022-12-30 00:00:00 (3929 days)
+Test period: 2023-01-03 00:00:00 to 2026-03-31 00:00:00 (813 days)
+
+Step 2: Running Wasserstein HMM + MVO Strategy...
+--------------------------------------------------------------------------------
+Initialized 6 templates
+Running Wasserstein HMM backtest (813 days)...
+  Day 1/813
+  Day 51/813
+  Day 101/813
+Traceback (most recent call last):
+  File "/workspace/project/run_experiment.py", line 342, in <module>
+    main()
+  File "/workspace/project/run_experiment.py", line 82, in main
+    hmm_results = hmm_strategy.backtest(
+                  ^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/project/src/hmm_strategy.py", line 484, in backtest
+    w_t = optimize_portfolio(
+          ^^^^^^^^^^^^^^^^^^^
+  File "/workspace/project/src/optimizer.py", line 76, in optimize_portfolio
+    risk = w.T @ sigma @ w
+           ~~~~~~~~~~~~^~~
+  File "/usr/local/lib/python3.12/site-packages/cvxpy/expressions/expression.py", line 51, in cast_op
+    return binary_op(self, other)
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/cvxpy/expressions/expression.py", line 701, in __matmul__
+    return quad_form()(other, self.args[1])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/local/lib/python3.12/site-packages/cvxpy/atoms/quad_form.py", line 40, in __init__
+    super(QuadForm, self).__init__(x, P)
+  File "/usr/local/lib/python3.12/site-packages/cvxpy/atoms/atom.py", line 50, in __init__
+    self.validate_arguments()
+  File "/usr/local/lib/python3.12/site-packages/cvxpy/atoms/quad_form.py", line 56, in validate_arguments
+    raise ValueError("Quadratic form matrices must be symmetric/Hermitian.")
+ValueError: Quadratic form matrices must be symmetric/Hermitian.
